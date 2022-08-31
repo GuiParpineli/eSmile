@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class Dentist {
 
     private int id;
