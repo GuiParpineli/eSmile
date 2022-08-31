@@ -33,7 +33,7 @@ public class AppointmentDAOH2 implements IDao<Appointment> {
 
         log.info("Abrindo Conexão");
 
-        final String SQLInsert = ("INSERT INTO appointment (patientId, destistId, appointmentDate)" + "VALUES (?,?,?)");
+        final String SQLInsert = "INSERT INTO appointment (patientId, destistId, appointmentDate) VALUES (?,?,?)";
 
         Connection connection = null;
 
