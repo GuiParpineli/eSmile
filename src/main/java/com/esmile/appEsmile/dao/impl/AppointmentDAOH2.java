@@ -7,13 +7,15 @@ import com.esmile.appEsmile.model.Dentist;
 import com.esmile.appEsmile.model.Patient;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
 
+@Configuration
 public class AppointmentDAOH2 implements IDao<Appointment> {
 
     private ConfiguracaoJDBC configuracaoJDBC;
