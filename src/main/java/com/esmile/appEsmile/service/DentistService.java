@@ -1,36 +1,37 @@
 package com.esmile.appEsmile.service;
 
-import com.esmile.appEsmile.dao.IDao;
-import com.esmile.appEsmile.model.Dentist;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.esmile.appEsmile.entity.Dentist;
+import com.esmile.appEsmile.repository.IDentistRepository;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class DentistService {
+public class DentistService implements IService<Dentist>{
 
-    @Autowired
-    IDao<Dentist> dentistIDao;
-
-    public List<Dentist> getAll() throws SQLException {
-        return dentistIDao.getAll();
+    IDentistRepository dentistRepository;
+    @Override
+    public List<Dentist> getAll() {
+        return dentistRepository.findAll();
     }
 
-    public Dentist get(int id) throws SQLException {
-        return dentistIDao.get(id);
+    @Override
+    public Optional<Dentist> get(Long id) {
+        return dentistRepository.findById(id);
     }
 
-    public Dentist save(Dentist dentist) throws SQLException {
-        return dentistIDao.save(dentist);
+    @Override
+    public Dentist save(Dentist dentist) {
+        return dentistRepository.save(dentist);
     }
 
-    public void update(Dentist dentist) throws SQLException {
-        dentistIDao.update(dentist);
+    @Override
+    public void update(Dentist dentist) {
+        dentistRepository.saveAndFlush(dentist);
     }
 
-    public void delete(Dentist dentist) throws SQLException {
-        dentistIDao.delete(dentist);
+    @Override
+    public void delete(Dentist dentist) {
+        dentistRepository.delete(dentist);
     }
 }

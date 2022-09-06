@@ -1,13 +1,13 @@
 package com.esmile.appEsmile.controller;
 
-import com.esmile.appEsmile.dao.impl.PatientDAOH2;
-import com.esmile.appEsmile.model.Patient;
+import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/paciente")
@@ -17,27 +17,27 @@ public class PatientController {
     PatientService patientService;
 
     @PostMapping
-    public Patient savePatient(@RequestBody Patient patient) throws SQLException{
+    public Patient savePatient(@RequestBody Patient patient) {
         return patientService.save(patient);
     }
 
     @GetMapping
-    public Patient get(@RequestParam("id") int id) throws SQLException{
+    public Optional<Patient> get(@RequestParam("id") Long id) {
         return patientService.get(id);
     }
 
     @GetMapping("/todos")
-    public List<Patient> getAll() throws SQLException {
+    public List<Patient> getAll() {
         return patientService.getAll();
     }
 
     @PutMapping
-    public void update(@RequestBody Patient patient) throws SQLException{
+    public void update(@RequestBody Patient patient) {
         patientService.update(patient);
     }
 
     @DeleteMapping
-    public void excluir(@RequestBody Patient patient) throws SQLException{
+    public void excluir(@RequestBody Patient patient) {
         patientService.delete(patient);
     }
 
