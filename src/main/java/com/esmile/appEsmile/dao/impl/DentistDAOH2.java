@@ -21,7 +21,7 @@ public class DentistDAOH2 implements IDao<Dentist> {
         log.info("Abrindo conexão no banco");
 
         Connection connection = null;
-        Statement stmt = null;
+//        Statement stmt = null;
 
         final String query = "SELECT * FROM dentist";
         List<Dentist> dentist = new ArrayList<>();
@@ -31,8 +31,8 @@ public class DentistDAOH2 implements IDao<Dentist> {
             configuracaoJDBC = new ConfiguracaoJDBC("org.h2.Driver", "jdbc:h2:~/esmile;INIT=RUNSCRIPT FROM 'create.sql'",
                     "sa", "");
             connection = configuracaoJDBC.getConnection();
-
-            ResultSet resultSet = stmt.executeQuery(query);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
 
             log.debug("Buscando todos os dentistas da clinica");
 
@@ -129,8 +129,7 @@ public class DentistDAOH2 implements IDao<Dentist> {
 
         log.info("Abrindo Conexao");
 
-        final String SQLUpdate = "UPDATE dentist SET firstName = ?, lastName = ?, cro = ?, WHERE  " +
-                "id = ?)";
+        final String SQLUpdate = "UPDATE dentist SET firstName = ?, lastName = ?, cro = ? WHERE id = ?;";
 
         Connection connection = null;
 
@@ -147,6 +146,7 @@ public class DentistDAOH2 implements IDao<Dentist> {
             ps.setString(1, dentist.getName());
             ps.setString(2, dentist.getLastname());
             ps.setString(3, dentist.getCro());
+            ps.setInt(4, dentist.getId());
 
             ps.execute();
             connection.setAutoCommit(true);

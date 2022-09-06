@@ -132,7 +132,7 @@ public class PatientDAOH2 implements IDao<Patient> {
         log.info("Abrindo Conexao");
 
         final String SQLUpdate = "UPDATE patient SET firstName = ?, lastName = ?, cpf = ?, address =? WHERE  " +
-                "id = ?)";
+                "id = ?";
 
         Connection connection = null;
 
@@ -150,6 +150,7 @@ public class PatientDAOH2 implements IDao<Patient> {
             ps.setString(2, patient.getLastname());
             ps.setString(3, patient.getCpf());
             ps.setString(4, patient.getAddress());
+            ps.setInt(5, patient.getId());
 
             ps.execute();
             connection.setAutoCommit(true);

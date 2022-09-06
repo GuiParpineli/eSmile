@@ -21,7 +21,6 @@ public class AppointmentDAOH2 implements IDao<Appointment> {
     private ConfiguracaoJDBC configuracaoJDBC;
     final static Logger log = Logger.getLogger(AppointmentDAOH2.class);
 
-
     @Override
     public List<Appointment> getAll() throws SQLException {
         log.info("Abrindo conexão no banco");
@@ -98,33 +97,33 @@ public class AppointmentDAOH2 implements IDao<Appointment> {
 
         Connection connection = null;
 
-        try{
+        try {
             log.info("Agendando Consulta do paciente :" + appointment.getPatient().getName());
 
-            configuracaoJDBC = new ConfiguracaoJDBC("org.h2.Driver","jdbc:h2:~/esmile;INIT=RUNSCRIPT FROM 'create.sql'",
-                    "sa","");
+            configuracaoJDBC = new ConfiguracaoJDBC("org.h2.Driver", "jdbc:h2:~/esmile;INIT=RUNSCRIPT FROM 'create.sql'",
+                    "sa", "");
             connection = configuracaoJDBC.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(SQLInsert, PreparedStatement.RETURN_GENERATED_KEYS);
 
             ResultSet resultSet = ps.getGeneratedKeys();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 appointment.setId(resultSet.getInt(1));
             }
 
-            ps.setInt(1,appointment.getPatient().getId());
-            ps.setInt(2,appointment.getDentist().getId());
+            ps.setInt(1, appointment.getPatient().getId());
+            ps.setInt(2, appointment.getDentist().getId());
             ps.setDate(3, (Date) appointment.getAppointmentDate());
             ps.execute();
 
             connection.setAutoCommit(true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             log.error("Erro ao agendar consulta do paciente: " + appointment.getPatient().getName());
 
-        }finally {
+        } finally {
             log.info("Conexao Finalizada");
             connection.close();
         }
@@ -139,7 +138,7 @@ public class AppointmentDAOH2 implements IDao<Appointment> {
         log.info("Abrindo Conexao");
 
         final String SQLUpdate = "UPDATE appointment SET appointmentDate = ? WHERE  " +
-                "id = ?)";
+                "id = ?";
 
         Connection connection = null;
 
@@ -197,12 +196,13 @@ public class AppointmentDAOH2 implements IDao<Appointment> {
             connection.close();
         }
     }
+
     public Appointment createObjectAppointment(ResultSet result) throws SQLException {
 
         Integer id = result.getInt("id");
         Integer patientId = result.getInt("patientId");
-        Integer dentistId= result.getInt("dentistId");
-        Date appointmentDate = result.getDate("appintmentDate");
+        Integer dentistId = result.getInt("dentistId");
+        Date appointmentDate = result.getDate("appointmentDate");
 
         PatientDAOH2 patientDAOH2 = new PatientDAOH2();
         Patient patient = null;

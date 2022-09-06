@@ -16,11 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Configuration
+@Service
 public class AppointmentService {
 
     @Autowired
-
     IDao<Appointment> appointmentIDao;
 
     public List<Appointment> getAll() throws SQLException {
