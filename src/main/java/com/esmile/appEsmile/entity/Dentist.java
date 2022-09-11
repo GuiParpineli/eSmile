@@ -18,7 +18,6 @@ public class Dentist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -26,9 +25,4 @@ public class Dentist {
     @Column(nullable = false, length = 8)
     private String cro;
 
-    public Dentist(String name, String lastname, String cro) {
-        this.name = name;
-        this.lastname = lastname;
-        this.cro = cro;
-    }
 }

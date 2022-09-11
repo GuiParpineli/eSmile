@@ -1,7 +1,7 @@
 package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.Appointment;
-import com.esmile.appEsmile.service.AppointmentService;
+import com.esmile.appEsmile.service.impl.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

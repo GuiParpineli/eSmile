@@ -16,17 +16,15 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String lastname;
-    @Column(nullable = false, length = 12)
+    @Column(length = 12)
     private String cpf;
 
-
-    @OneToOne
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JoinColumn(name = "id_address")
     private Address address;
-
 }

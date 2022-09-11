@@ -1,7 +1,8 @@
-package com.esmile.appEsmile.service;
+package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.repository.IPatientRepository;
+import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PatientService implements IService<Patient>{
+public class PatientService implements IService<Patient> {
 
     @Autowired
     IPatientRepository patientRepository;

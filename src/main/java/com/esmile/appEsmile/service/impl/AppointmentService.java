@@ -1,14 +1,15 @@
-package com.esmile.appEsmile.service;
+package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.Appointment;
 import com.esmile.appEsmile.repository.IAppointmentRepository;
+import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AppointmentService implements IService<Appointment>{
+public class AppointmentService implements IService<Appointment> {
 
     @Autowired
     IAppointmentRepository appointmentRepository;
