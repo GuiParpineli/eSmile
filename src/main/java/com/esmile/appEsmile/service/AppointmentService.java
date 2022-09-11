@@ -2,6 +2,7 @@ package com.esmile.appEsmile.service;
 
 import com.esmile.appEsmile.entity.Appointment;
 import com.esmile.appEsmile.repository.IAppointmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Optional;
 @Service
 public class AppointmentService implements IService<Appointment>{
 
+    @Autowired
     IAppointmentRepository appointmentRepository;
 
 

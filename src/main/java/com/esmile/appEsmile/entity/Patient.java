@@ -24,13 +24,9 @@ public class Patient {
     @Column(nullable = false, length = 12)
     private String cpf;
 
-    @Column(nullable = false)
-    private String address;
 
-    public Patient(String name, String lastname, String cpf, String address) {
-        this.name = name;
-        this.lastname = lastname;
-        this.cpf = cpf;
-        this.address = address;
-    }
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Address address;
+
 }
