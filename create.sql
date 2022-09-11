@@ -7,7 +7,7 @@ CREATE TABLE if NOT EXISTS patient(
     registeredAt TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS denstist(
+CREATE TABLE IF NOT EXISTS dentist(
     id INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(100),
     lastName VARCHAR(100),
@@ -17,12 +17,10 @@ CREATE TABLE IF NOT EXISTS denstist(
 
 CREATE TABLE IF NOT EXISTS appointment(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    patientId int
-    CONSTRAINT FK_Pacient FOREIGN KEY(patientId)
-    REFERENCES Patient(id),
-    dentistId int
-    CONSTRAINT FK_Dentist FOREIGN KEY(dentistId)
-    REFERENCES Dentist(id),
+    patientId int,
+    FOREIGN KEY(patientId) REFERENCES patient(id),
+    dentistId int,
+    FOREIGN KEY(dentistId) REFERENCES dentist(id),
     appointmentDate DATE,
     registeredAt TIMESTAMP
-)
+);

@@ -1,43 +1,41 @@
 package com.esmile.appEsmile.service;
 
-import com.esmile.appEsmile.dao.ConfiguracaoJDBC;
-import com.esmile.appEsmile.dao.IDao;
-import com.esmile.appEsmile.dao.impl.AppointmentDAOH2;
-import com.esmile.appEsmile.dao.impl.PatientDAOH2;
-import com.esmile.appEsmile.model.Appointment;
+import com.esmile.appEsmile.entity.Appointment;
+import com.esmile.appEsmile.repository.IAppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AppointmentService {
+public class AppointmentService implements IService<Appointment>{
 
     @Autowired
-    IDao<Appointment> appointmentIDao;
+    IAppointmentRepository appointmentRepository;
 
-    public List<Appointment> getAll() throws SQLException {
-        return appointmentIDao.getAll();
+
+    @Override
+    public List<Appointment> getAll() {
+        return appointmentRepository.findAll();
     }
 
-    public Appointment get(int id) throws SQLException{
-        return appointmentIDao.get(id);
+    @Override
+    public Optional<Appointment> get(Long id) {
+        return appointmentRepository.findById(id) ;
     }
 
-    public Appointment save(Appointment appointment) throws SQLException {
-       return appointmentIDao.save(appointment);
+    @Override
+    public Appointment save(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 
-    public void update(Appointment appointment)throws SQLException {
-        appointmentIDao.update(appointment);
+    @Override
+    public void update(Appointment appointment) {
+        appointmentRepository.saveAndFlush(appointment);
     }
 
-    public void delete(Appointment appointment) throws SQLException{
-        appointmentIDao.delete(appointment);
+    @Override
+    public void delete(Appointment appointment) {
+        appointmentRepository.delete(appointment);
     }
-
 }
