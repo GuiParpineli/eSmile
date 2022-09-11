@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.esmile</groupId>
-    <artifactId>appEsmile</artifactId>
+    <artifactId>app_esmile</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>appEsmile</name>
+    <name>app_esmile</name>
     <description>Projeto Integrador DH</description>
     <properties>
         <java.version>11</java.version>
@@ -79,7 +79,28 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.2</version>
+                <configuration>
+                    <repository>guiparpineli/${project.artifactId}-app</repository>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
 
 </project>
