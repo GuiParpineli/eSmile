@@ -1,5 +1,6 @@
 package com.esmile.appEsmile.controller;
 
+import com.esmile.appEsmile.entity.Address;
 import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class PatientController {
     PatientService patientService;
 
     @PostMapping
-    public Patient savePatient(@RequestBody Patient patient) {
+    public Patient savePatient(@RequestBody Patient patient, @RequestBody Address address) {
+        patient.setAddress(address);
         return patientService.save(patient);
     }
 
