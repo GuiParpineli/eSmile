@@ -48,8 +48,7 @@ public class PatientController {
         List<Patient> patients = service.getAll();
 
         if (patients.isEmpty()) {
-            return new ResponseEntity("Nenhum paciente cadastrado", HttpStatus.NOT_FOUND);
-        }
+            return new ResponseEntity("Nenhum paciente cadastrado", HttpStatus.NOT_FOUND);        }
 
         for (Patient p : patients) {
             patientDTOS.add(mapper.convertValue(p, PatientDTO.class));
