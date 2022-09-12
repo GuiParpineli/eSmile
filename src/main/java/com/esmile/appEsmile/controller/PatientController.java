@@ -52,7 +52,7 @@ public class PatientController {
         }
 
         for (Patient p : patients) {
-        patientDTOS.add(mapper.convertValue(p, PatientDTO.class));
+            patientDTOS.add(mapper.convertValue(p, PatientDTO.class));
         }
 
         return new ResponseEntity(patientDTOS, HttpStatus.OK);
