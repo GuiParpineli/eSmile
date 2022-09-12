@@ -42,7 +42,7 @@ public class DentistController {
 
     @GetMapping("/todos")
     public ResponseEntity getAll() {
-        ObjectMapper mapper = new ObjectError();
+        ObjectMapper mapper = new ObjectMapper();
 
         List<DentistDTO> dentistDTOS = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class DentistController {
         }
 
         for(Dentist d: dentists) {
-            dentistDTOS.add(mapper.convertValue(d, DentistDTO.class))
+            dentistDTOS.add(mapper.convertValue(d, DentistDTO.class));
         }
 
         return new ResponseEntity(dentistDTOS, HttpStatus.OK);
