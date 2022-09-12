@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.security.Timestamp;
 import java.util.Date;
 
 @Getter
@@ -19,17 +20,20 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "id_patient")
     private Patient patient;
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "id_dentist")
     private Dentist dentist;
 
     @Column(nullable = false)
-    private Date appointmentDate;
+    //private Date appointmentDate;
+    private Timestamp appointmentDate;
 
-    public Appointment(Patient patient, Dentist dentist,  Date appointmentDate) {
-        this.patient = patient;
-        this.dentist = dentist;
-        this.appointmentDate = appointmentDate;
-    }
+//    public Appointment(Patient patient, Dentist dentist,  Timestamp appointmentDate) {
+//        this.patient = patient;
+//        this.dentist = dentist;
+//        this.appointmentDate = appointmentDate;
+//    }
 }
