@@ -1,12 +1,17 @@
 package com.esmile.appEsmile.controller;
 
+import com.esmile.appEsmile.dto.AppointmentDTO;
+import com.esmile.appEsmile.dto.DentistDTO;
 import com.esmile.appEsmile.entity.Appointment;
+import com.esmile.appEsmile.entity.Dentist;
 import com.esmile.appEsmile.service.impl.AppointmentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +39,28 @@ public class AppointmentController {
     @GetMapping("/todos")
     public ResponseEntity getAll() {
         List<Appointment> appointments = service.getAll();
-        if (appointments.isEmpty()) {
-            return new ResponseEntity("Nenhuma consulta cadastrada no sistema", HttpStatus.NOT_FOUND);
+//        if (appointments.isEmpty()) {
+//            return new ResponseEntity("Nenhuma consulta cadastrada no sistema", HttpStatus.NOT_FOUND);
+//        }
+            //return new ResponseEntity(appointments, HttpStatus.OK);
+
+        //ObjectMapper mapper = new ObjectMapper();
+
+        List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
+
+        //List<Dentist> dentists = service.getAll();
+
+        if(appointments.isEmpty()) {
+            return new ResponseEntity("Nenhuma consulta encontratdo", HttpStatus.NOT_FOUND);
         }
-            return new ResponseEntity(appointments, HttpStatus.OK);
+
+        for(Appointment a: appointments) {
+            appointmentDTOS.add(new AppointmentDTO(a.getDentist().getName()+" "+a.getDentist().getLastname(),a.getPatient().getName()+" "+a.getPatient().getLastname(),a.getAppointmentDate()));
+        }
+
+
+
+        return new ResponseEntity(appointmentDTOS, HttpStatus.OK);
     }
 
     @PutMapping

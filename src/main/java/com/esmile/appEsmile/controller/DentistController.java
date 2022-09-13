@@ -49,7 +49,7 @@ public class DentistController {
         List<Dentist> dentists = service.getAll();
 
         if(dentists.isEmpty()) {
-            return new ResponseEntity("Nenhum dentista encontratdo", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Nenhum dentista encontrado", HttpStatus.NOT_FOUND);
         }
 
         for(Dentist d: dentists) {
