@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.security.Timestamp;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
@@ -27,7 +28,7 @@ public class Appointment {
     @JoinColumn(name = "id_dentist")
     private Dentist dentist;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     //private Date appointmentDate;
     private Timestamp appointmentDate;
 
