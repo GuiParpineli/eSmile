@@ -16,8 +16,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/dentista")
 public class DentistController {
-    @Autowired
-    DentistService service;
+//    @Autowired
+//    DentistService service;
+
+    static DentistService service;
+
+    public DentistController() {
+    }
 
     @PostMapping
     public Dentist save(@RequestBody Dentist dentist) {

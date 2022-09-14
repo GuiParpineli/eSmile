@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
@@ -28,17 +29,17 @@ class DentistControllerTest {
 
     private MockMvc mvc;
 
-    @Autowired
-    private DentistService controller;
-
-    @BeforeEach
-    void setUp() {
-        this.mvc = MockMvcBuilders.standaloneSetup(controller).build();
-    }
+//    @Autowired
+//    private DentistService controller;
+//
+//    @BeforeEach
+//    void setUp() {
+//        this.mvc = MockMvcBuilders.standaloneSetup(controller).build();
+//    }
 
     @Test
     void save() throws Exception {
-        Dentist dentist = new Dentist(1L, "Filipe", "Farias", "123456");
+        Dentist dentist = new Dentist(null, "Filipe", "Farias", "123456");
 
         ObjectMapper mapper = new ObjectMapper();
 
