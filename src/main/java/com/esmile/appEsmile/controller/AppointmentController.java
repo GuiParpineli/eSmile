@@ -1,11 +1,7 @@
 package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.dto.AppointmentDTO;
-import com.esmile.appEsmile.dto.DentistDTO;
-import com.esmile.appEsmile.dto.PatientDTO;
 import com.esmile.appEsmile.entity.Appointment;
-import com.esmile.appEsmile.entity.Dentist;
-import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.service.impl.AppointmentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,21 +46,21 @@ public class AppointmentController {
 
         List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
 
-        if(appointments.isEmpty()) {
+        if (appointments.isEmpty()) {
             return new ResponseEntity("Nenhuma consulta encontratdo", HttpStatus.NOT_FOUND);
         }
 
-        for(Appointment a: appointments) {
-            appointmentDTOS.add(new AppointmentDTO(a.getDentist().getName()+" "+a.getDentist().getLastname(),a.getPatient().getName()+" "+a.getPatient().getLastname(),a.getAppointmentDate()));
+        for (Appointment a : appointments) {
+            appointmentDTOS.add(new AppointmentDTO(a.getDentist().getName() + " " + a.getDentist().getLastname(), a.getPatient().getName() + " " + a.getPatient().getLastname(), a.getAppointmentDate()));
         }
         return new ResponseEntity(appointmentDTOS, HttpStatus.OK);
     }
 
     @PutMapping
     public void update(@RequestBody Appointment appointment) {
-         if(service.get(appointment.getId()).isEmpty()){
-             new ResponseEntity("Nao existem consultas com o parametro informado, nada foi alterado", HttpStatus.NOT_FOUND);
-         }
+        if (service.get(appointment.getId()).isEmpty()) {
+            new ResponseEntity("Nao existem consultas com o parametro informado, nada foi alterado", HttpStatus.NOT_FOUND);
+        }
 
     }
 
