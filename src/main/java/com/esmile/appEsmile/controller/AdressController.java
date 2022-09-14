@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/endereco")
@@ -23,6 +24,16 @@ public class AdressController {
     }
 
     @GetMapping
+    public ResponseEntity getById(@RequestParam("id") Long id){
+        Optional<Address> addressGet = addressService.get(id);
+        if(addressGet.isEmpty()){
+            return  new ResponseEntity("Nenhum endereço cadastrado", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity(addressGet,HttpStatus.OK);
+    }
+
+    @GetMapping("/todos")
     public ResponseEntity getAll() {
         List<Address> addresses = addressService.getAll();
         if (addresses == null) {
@@ -30,4 +41,20 @@ public class AdressController {
         }
         return new ResponseEntity(addresses, HttpStatus.OK);
     }
+
+    @PatchMapping
+    public void update(Address address){
+        if (address != null && addressService.get(address.getId()).isPresent()) {
+            addressService.update(address);
+        }
+    }
+
+    @DeleteMapping
+    public void delete(@RequestBody Address address) {
+        if (address != null && addressService.get(address.getId()).isPresent()) {
+            addressService.delete(address);
+        }
+    }
+
+
 }
