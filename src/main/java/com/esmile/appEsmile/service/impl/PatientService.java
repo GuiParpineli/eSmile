@@ -1,12 +1,13 @@
 package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.Patient;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.repository.IPatientRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +34,24 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public void update(Patient patient) {
+
         patientRepository.saveAndFlush(patient);
     }
 
     @Override
     public void delete(Patient patient) {
-        patientRepository.delete(patient);
+
+//        try {
+//            patientRepository.deleteById(patient.getId());
+//            return ResponseEntity.ok("Patient Deleted");
+//        } catch (Exception ex) {
+//            throw new ResourceNotFoundException("Error to find Patient");
+//        }
+        if (get(patient.getId()).isPresent()) {
+            System.out.println("Encontrou ID Paciente");
+            patientRepository.delete(patient);
+            //return ;
+        }
+
     }
 }

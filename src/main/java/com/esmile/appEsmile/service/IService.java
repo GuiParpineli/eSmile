@@ -1,5 +1,8 @@
 package com.esmile.appEsmile.service;
 
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,6 @@ public interface IService<T> {
 
     public void update(T t) ;
 
-    public void delete(T t) ;
+    public void delete(T t) throws ResourceNotFoundException;
 }
 

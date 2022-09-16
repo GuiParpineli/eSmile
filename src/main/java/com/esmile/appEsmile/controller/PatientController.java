@@ -2,6 +2,7 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.dto.PatientDTO;
 import com.esmile.appEsmile.entity.Patient;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.service.impl.PatientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,13 @@ public class PatientController {
     }
 
     @DeleteMapping
-    public void excluir(@RequestBody Patient patient) {
-        service.delete(patient);
+    public ResponseEntity<String> excluir(@RequestBody Patient patient) throws ResourceNotFoundException {
+        try {
+            service.delete(patient);
+            return ResponseEntity.ok("Patient Deleted");
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Error to find Patient");
+        }
     }
 
 }

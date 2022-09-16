@@ -4,6 +4,7 @@ import com.esmile.appEsmile.entity.Dentist;
 import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -36,5 +37,6 @@ public class DentistService implements IService<Dentist> {
     @Override
     public void delete(Dentist dentist) {
         dentistRepository.delete(dentist);
+        //return null;
     }
 }

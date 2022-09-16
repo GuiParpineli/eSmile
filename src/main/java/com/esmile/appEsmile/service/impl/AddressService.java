@@ -4,6 +4,7 @@ import com.esmile.appEsmile.entity.Address;
 import com.esmile.appEsmile.repository.IAdressRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,6 @@ public class AddressService implements IService<Address> {
     @Override
     public void delete(Address address) {
         repository.delete(address);
+        //return null;
     }
 }

@@ -4,6 +4,7 @@ import com.esmile.appEsmile.entity.Appointment;
 import com.esmile.appEsmile.repository.IAppointmentRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +39,6 @@ public class AppointmentService implements IService<Appointment> {
     @Override
     public void delete(Appointment appointment) {
         appointmentRepository.delete(appointment);
+        //return null;
     }
 }
