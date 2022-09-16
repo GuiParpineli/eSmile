@@ -70,6 +70,7 @@ public class PatientController {
             service.delete(patient);
             return ResponseEntity.ok("Patient Deleted");
         } catch (Exception ex) {
+
             throw new ResourceNotFoundException("Error to find Patient");
         }
     }

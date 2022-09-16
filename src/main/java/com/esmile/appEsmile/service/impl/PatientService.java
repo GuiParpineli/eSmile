@@ -41,16 +41,8 @@ public class PatientService implements IService<Patient> {
     @Override
     public void delete(Patient patient) {
 
-//        try {
-//            patientRepository.deleteById(patient.getId());
-//            return ResponseEntity.ok("Patient Deleted");
-//        } catch (Exception ex) {
-//            throw new ResourceNotFoundException("Error to find Patient");
-//        }
-        if (get(patient.getId()).isPresent()) {
-            System.out.println("Encontrou ID Paciente");
-            patientRepository.delete(patient);
-            //return ;
+        if (get(patient.getId()) != null ) {
+            patientRepository.deleteById(patient.getId());
         }
 
     }
