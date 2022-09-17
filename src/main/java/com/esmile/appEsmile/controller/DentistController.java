@@ -19,7 +19,8 @@ public class DentistController {
 //    @Autowired
 //    DentistService service;
 
-    static DentistService service;
+    @Autowired
+    DentistService service;
 
     public DentistController() {
     }
