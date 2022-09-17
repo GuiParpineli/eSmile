@@ -6,6 +6,7 @@ import com.esmile.appEsmile.entity.Dentist;
 import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.impl.DentistService;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 
@@ -23,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -71,11 +73,42 @@ class DentistControllerTest {
 //    }
 
     @Test
+    @DisplayName("Deve Retornar OK - Salvar dentista")
     void save() {
+//        Dentist dentist = new Dentist(
+//                1L,
+//                "Maiara",
+//                "Martinelli",
+//                "643152"
+//        );
 
+        Dentist dentist1 = Dentist.builder()
+                .name("Maiara")
+                .lastname("Martinelli")
+                .cro("643152")
+                .build();
+
+        when(service.save(dentist1))
+                .thenReturn(dentist1);
+
+        try {
+            MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                    .post("/dentista")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(this.mapper.writeValueAsString(dentist1));
+
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk());
+//                    .andExpect(jsonPath("$", notNullValue()))
+//                    .andExpect(jsonPath("$.name", is("Maiara")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
+    @DisplayName("Deve Retornar OK - Buscar dentista")
     void get() {
         when(service.get(RECORD_01.getId()))
                 .thenReturn(Optional.of(RECORD_01));
