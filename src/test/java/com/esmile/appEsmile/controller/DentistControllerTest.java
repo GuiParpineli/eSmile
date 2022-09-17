@@ -3,15 +3,19 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.AppEsmileApplicationTests;
 import com.esmile.appEsmile.entity.Dentist;
+import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.impl.DentistService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 
 import io.restassured.http.ContentType;
+import jdk.jfr.Name;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,48 +27,87 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DentistController.class)
 class DentistControllerTest {
+    @Autowired
+    MockMvc mockMvc;
 
     @Autowired
-    private DentistController controller;
+    ObjectMapper mapper;
+
+//    @MockBean
+//    IDentistRepository dentistRepository;
 
     @MockBean
-    private DentistService service;
+    DentistService service;
 
-    @BeforeEach
-    public void setup() {
-        standaloneSetup(this.controller);
-    }
+    Dentist RECORD_01 = new Dentist(1L, "Filipe", "Farias", "123456");
+    Dentist RECORD_02 = new Dentist(2L, "Guilherme", "Parpineli", "654321");
+    Dentist RECORD_03 = new Dentist(3L, "Lucas", "Rosa", "134625");
+
+//    @Autowired
+//    private DentistController controller;
+//
+//    @MockBean
+//    private DentistService service;
+
+//    @BeforeEach
+//    public void setup() {
+//        standaloneSetup(this.controller);
+//    }
 
     @Test
     void save() {
+
     }
 
     @Test
     void get() {
-        when(this.service.get(1L))
-                .thenReturn(Optional.of(new Dentist(
-                        1L,
-                        "Filipe",
-                        "Farias",
-                        "123456"
-                )));
-
-        given().accept(ContentType.JSON)
-                .when().get("/dentista?id=1")
-                .then().statusCode(HttpStatus.OK.value());
+//        when(this.service.get(1L))
+//                .thenReturn(Optional.of(new Dentist(
+//                        1L,
+//                        "Filipe",
+//                        "Farias",
+//                        "123456"
+//                )));
+//
+//        given().accept(ContentType.JSON)
+//                .when().get("/dentista?id=1")
+//                .then().statusCode(HttpStatus.OK.value());
     }
 
     @Test
+    @DisplayName("Deve Retornar OK - Buscar todos dentistas")
     void getAll() {
+        List<Dentist> dentists = new ArrayList<>(Arrays.asList(RECORD_01, RECORD_02, RECORD_03));
+
+        when(service.getAll())
+                .thenReturn(dentists);
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                    .get("/dentista/todos")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(3)))
+                    .andExpect(jsonPath("$[1].name", is("Guilherme")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

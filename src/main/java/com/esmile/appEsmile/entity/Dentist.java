@@ -1,9 +1,6 @@
 package com.esmile.appEsmile.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,9 +15,9 @@ public class Dentist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NonNull
     private String name;
-    @Column(nullable = false)
+    @NonNull
     private String lastname;
     @Column(nullable = false, length = 8)
     private String cro;

@@ -2,6 +2,7 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.dto.DentistDTO;
 import com.esmile.appEsmile.entity.Dentist;
+import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.impl.DentistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class DentistController {
 
     @Autowired
     DentistService service;
+
+//    @Autowired
+//    IDentistRepository service;
 
     public DentistController() {
     }
