@@ -45,7 +45,8 @@ public class DentistController {
 
         DentistDTO dentistDTO = mapper.convertValue(dentistOptional, DentistDTO.class);
 
-        return new ResponseEntity(dentistDTO, HttpStatus.OK);
+//        return new ResponseEntity(dentistDTO, HttpStatus.OK);
+        return new ResponseEntity(dentistOptional, HttpStatus.OK);
     }
 
     @GetMapping("/todos")
