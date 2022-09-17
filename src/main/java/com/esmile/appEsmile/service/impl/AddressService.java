@@ -37,8 +37,8 @@ public class AddressService implements IService<Address> {
     }
 
     @Override
-    public void delete(Address address) {
-        repository.delete(address);
+    public void delete(Long id) {
+        repository.deleteById(id);
         //return null;
     }
 }

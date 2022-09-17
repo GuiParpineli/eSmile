@@ -6,6 +6,7 @@ import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.impl.DentistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,8 +75,13 @@ public class DentistController {
     }
 
     @DeleteMapping
-    public void delete(@RequestBody Dentist dentist) {
-        service.delete(dentist);
+//    public void delete(@RequestBody Dentist dentist) {
+    public void delete (@RequestParam("id") Long id) {
+        if (service.get(id).isEmpty()) {
+            throw new RuntimeException();
+        }
+        service.delete(id);
+        //        service.delete(dentist);
     }
 }
 

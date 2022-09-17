@@ -39,11 +39,12 @@ public class PatientService implements IService<Patient> {
     }
 
     @Override
-    public void delete(Patient patient) {
+    public void delete(Long id) {
 
-        if (get(patient.getId()) != null ) {
-            patientRepository.deleteById(patient.getId());
-        }
+//        if (get(patient.getId()) != null ) {
+//            patientRepository.deleteById(patient.getId());
+//        }
+        patientRepository.deleteById(id);
 
     }
 }

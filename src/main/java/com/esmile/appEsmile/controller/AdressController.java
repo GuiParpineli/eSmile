@@ -50,10 +50,12 @@ public class AdressController {
     }
 
     @DeleteMapping
-    public void delete(@RequestBody Address address) {
-        if (address != null && addressService.get(address.getId()).isPresent()) {
-            addressService.delete(address);
-        }
+    public void delete(@RequestParam("id") Long id) {
+//        if (address != null && addressService.get(address.getId()).isPresent()) {
+//            addressService.delete(address);
+//        }
+
+        addressService.delete(id);
     }
 
 

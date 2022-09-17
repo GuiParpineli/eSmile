@@ -65,7 +65,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping
-    public void delete(@RequestBody Appointment appointment) {
-        service.delete(appointment);
+    public void delete(@RequestParam("id") Long id) {
+        service.delete(id);
     }
 }

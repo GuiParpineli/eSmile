@@ -37,8 +37,8 @@ public class AppointmentService implements IService<Appointment> {
     }
 
     @Override
-    public void delete(Appointment appointment) {
-        appointmentRepository.delete(appointment);
+    public void delete(Long id) {
+        appointmentRepository.deleteById(id);
         //return null;
     }
 }

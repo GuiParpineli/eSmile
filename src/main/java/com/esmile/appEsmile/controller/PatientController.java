@@ -64,15 +64,25 @@ public class PatientController {
         service.update(patient);
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> excluir(@RequestBody Patient patient) throws ResourceNotFoundException {
-        try {
-            service.delete(patient);
-            return ResponseEntity.ok("Patient Deleted");
-        } catch (Exception ex) {
+//    @DeleteMapping
+//    public ResponseEntity<String> excluir(@RequestBody Patient patient) throws ResourceNotFoundException {
+//        try {
+//            service.delete(patient);
+//            return ResponseEntity.ok("Patient Deleted");
+//        } catch (Exception ex) {
+//
+//            throw new ResourceNotFoundException("Error to find Patient");
+//        }
+//    }
 
-            throw new ResourceNotFoundException("Error to find Patient");
+    @DeleteMapping
+//    public void delete(@RequestBody Dentist dentist) {
+    public void delete (@RequestParam("id") Long id) {
+        if (service.get(id).isEmpty()) {
+            throw new RuntimeException();
         }
+        service.delete(id);
+        //        service.delete(dentist);
     }
 
 }

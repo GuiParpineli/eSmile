@@ -35,8 +35,8 @@ public class DentistService implements IService<Dentist> {
     }
 
     @Override
-    public void delete(Dentist dentist) {
-        dentistRepository.delete(dentist);
+    public void delete(Long id) {
+        dentistRepository.deleteById(id);
         //return null;
     }
 }

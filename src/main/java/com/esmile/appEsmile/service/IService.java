@@ -16,6 +16,6 @@ public interface IService<T> {
 
     public void update(T t) ;
 
-    public void delete(T t) throws ResourceNotFoundException;
+    public void delete(Long id) throws ResourceNotFoundException;
 }
 
