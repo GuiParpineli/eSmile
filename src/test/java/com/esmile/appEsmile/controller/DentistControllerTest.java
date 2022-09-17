@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -32,8 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -77,6 +77,20 @@ class DentistControllerTest {
 
     @Test
     void get() {
+        when(service.get(RECORD_01.getId()))
+                .thenReturn(Optional.of(RECORD_01));
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                    .get("/dentista?id=1")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", notNullValue()))
+                    .andExpect(jsonPath("$.name", is("Filipe")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 //        when(this.service.get(1L))
 //                .thenReturn(Optional.of(new Dentist(
 //                        1L,
