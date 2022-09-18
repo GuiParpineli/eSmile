@@ -18,14 +18,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/dentista")
 public class DentistController {
-//    @Autowired
-//    DentistService service;
 
     @Autowired
     DentistService service;
-
-//    @Autowired
-//    IDentistRepository service;
 
     public DentistController() {
     }

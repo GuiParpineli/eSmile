@@ -1,9 +1,6 @@
 package com.esmile.appEsmile.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,16 +9,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @NonNull
     private String name;
-    @Column(nullable = false)
+    @NonNull
     private String lastname;
-    @Column(length = 12)
+    @NonNull
     private String cpf;
 
     @ManyToOne

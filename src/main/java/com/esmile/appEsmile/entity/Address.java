@@ -1,9 +1,6 @@
 package com.esmile.appEsmile.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,23 +9,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NonNull
     private String street;
-    @Column(nullable = false)
+    @NonNull
     private String  number;
-    @Column(nullable = false)
+    @NonNull
     private String  neighborhood;
 
     private String  zipcode;
-    @Column(nullable = false)
+    @NonNull
     private String  city;
-    @Column(nullable = false)
+    @NonNull
     private String  state;
 
     public Address(String street, String number, String neighborhood, String zipcode, String city, String state) {
