@@ -5,12 +5,15 @@ import com.esmile.appEsmile.repository.IAppUserRepository;
 import com.esmile.appEsmile.service.IService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class AppUserService implements IService<AppUser> {
+@Service
+public class AppUserService implements IService<AppUser>, UserDetailsService {
     private final IAppUserRepository repository;
 
     @Autowired
