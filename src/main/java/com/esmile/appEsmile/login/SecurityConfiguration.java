@@ -48,10 +48,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeHttpRequests().antMatchers("/login").permitAll()
-                .antMatchers("/paciente").hasRole("PATIENT")
-                .antMatchers("/dentista").hasRole("DENTIST")
-                .antMatchers("/**").hasRole("ADMIN")
+                .authorizeHttpRequests().antMatchers("/login/**").permitAll()
+//                .antMatchers("/paciente").hasRole("PATIENT")
+//                .antMatchers("/dentista").hasRole("DENTIST")
+//                .antMatchers("/**").hasRole("ADMIN")
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

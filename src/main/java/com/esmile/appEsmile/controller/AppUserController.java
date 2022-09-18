@@ -94,5 +94,4 @@ public class AppUserController {
             throw new ResourceNotFoundException("Nenhum usuario com o id informado");
         }
     }
-        
 }
