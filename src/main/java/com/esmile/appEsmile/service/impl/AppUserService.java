@@ -1,14 +1,17 @@
 package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.AppUser;
+import com.esmile.appEsmile.login.UserRoles;
 import com.esmile.appEsmile.repository.IAppUserRepository;
 import com.esmile.appEsmile.service.IService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +51,10 @@ public class AppUserService implements IService<AppUser>, UserDetailsService {
         }
     }
 
-    public AppUser loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("procurando user: " + email);
-        return repository.findByEmail(email);
-        // return new User("foo","foo", new ArrayList<>());
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("procurando user: " + username);
+        //return repository.findByEmail(email);
+         return new User("foo","foo", new ArrayList<>());
     }
 }

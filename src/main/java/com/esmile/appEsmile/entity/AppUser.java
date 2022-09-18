@@ -32,6 +32,9 @@ public class AppUser implements UserDetails {
     private String username;
 
     @NonNull
+    private String email;
+
+    @NonNull
     private String password;
 
     @NonNull
@@ -42,16 +45,6 @@ public class AppUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRoles.name());
         return Collections.singleton(grantedAuthority);
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
     }
 
     @Override
@@ -78,10 +71,18 @@ public class AppUser implements UserDetails {
         this.jwt = jwt;
     }
 
-    public AppUser(@NonNull String name, @NonNull String username, @NonNull String password, @NonNull UserRoles userRoles) {
+    public AppUser(@NonNull String name, @NonNull String username, @NonNull String email, @NonNull String password,
+                   @NonNull UserRoles userRoles) {
         this.name = name;
         this.username = username;
         this.password = password;
+        this.email = email;
         this.userRoles = userRoles;
     }
+
+//    public AppUser(@NonNull String email, @NonNull String password, @NonNull UserRoles userRoles) {
+//        this.email = email;
+//        this.password = password;
+//        this.userRoles = userRoles;
+//    }
 }
