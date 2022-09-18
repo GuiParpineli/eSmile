@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -54,6 +55,16 @@ public class AppUserController {
         return ResponseEntity.ok(new AppUser((jwt)).getJwt());
     }
 
+    @PostMapping("/cadastro")
+    public ResponseEntity cadastrarUser(@RequestBody AppUser appUser) {
+        AppUser systemUserSave = service.save(appUser);
+        if (systemUserSave == null) {
+            return new ResponseEntity("Usuario ja cadastrado", HttpStatus.BAD_REQUEST);
+        }
+        log.info("Usuario" + appUser.getName() + " cadastrado com sucesso");
+        return new ResponseEntity(systemUserSave, HttpStatus.OK);
+    }
+
     @GetMapping
     public  ResponseEntity<?> obterTodos() throws ResourceNotFoundException {
         List<AppUser> appUsers;
@@ -64,4 +75,24 @@ public class AppUserController {
         }
         return ResponseEntity.ok(appUsers);
     }
+
+    @GetMapping("/busca")
+    public ResponseEntity obterUserPorId(@RequestParam Long id){
+        Optional<AppUser> user = service.get(id);
+        if(user.isEmpty()){
+            return new ResponseEntity("Nenhum usuario com id informado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity removeUser(@RequestParam("id") Long id) throws ResourceNotFoundException{
+        try {
+            service.delete(id);
+            return ResponseEntity.ok("Usuario Deletado");
+        }catch(Exception e) {
+            throw new ResourceNotFoundException("Nenhum usuario com o id informado");
+        }
+    }
+        
 }
