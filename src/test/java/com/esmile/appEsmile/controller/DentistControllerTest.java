@@ -61,7 +61,7 @@ class DentistControllerTest {
 
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk());
-//                    .andExpect(jsonPath("$", notNullValue()))
+//                    .andExpect(jsonPath("$", notNullValue()));
 //                    .andExpect(jsonPath("$.name", is("Maiara")));
         } catch (Exception e) {
             throw new RuntimeException(e);
