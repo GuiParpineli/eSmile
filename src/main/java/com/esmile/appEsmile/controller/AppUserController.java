@@ -39,6 +39,7 @@ public class AppUserController {
 
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AppUser appUser) {
+        log.info(appUser);
         try {
             log.info("Efetuando login para: " + appUser.getEmail());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -46,6 +47,7 @@ public class AppUserController {
                     appUser.getPassword()
             ));
         } catch(Exception e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
@@ -85,7 +87,7 @@ public class AppUserController {
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/exclusao")
     public ResponseEntity removeUser(@RequestParam("id") Long id) throws ResourceNotFoundException{
         try {
             service.delete(id);

@@ -37,15 +37,18 @@ public class AppUser implements UserDetails {
     @NonNull
     private String password;
 
-//    @NonNull
-//    @Enumerated(EnumType.STRING)
-//    private UserRoles userRoles;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRoles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       // SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRoles.name());
-       // return Collections.singleton(grantedAuthority);
-        return null;
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRoles.name());
+        return Collections.singleton(grantedAuthority);
+    }
+
+    public UserRoles getUserRoles() {
+        return userRoles;
     }
 
     @Override
@@ -72,17 +75,17 @@ public class AppUser implements UserDetails {
         this.jwt = jwt;
     }
 
-    public AppUser(@NonNull String name, @NonNull String username, @NonNull String email, @NonNull String password) {
+    public AppUser(@NonNull String name, @NonNull String username, @NonNull String email, @NonNull String password,
+                   @NonNull UserRoles userRoles) {
         this.name = name;
         this.username = username;
-        this.password = password;
         this.email = email;
-//        this.userRoles = userRoles;
-    }
-
+        this.password = password;
+        this.userRoles = userRoles;
 //    public AppUser(@NonNull String email, @NonNull String password, @NonNull UserRoles userRoles) {
 //        this.email = email;
 //        this.password = password;
 //        this.userRoles = userRoles;
 //    }
+    }
 }
