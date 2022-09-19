@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -28,6 +29,7 @@ public class AppUser implements UserDetails {
     private String name;
 
     @NonNull
+    @Size(min = 4 , max = 8)
     private String username;
 
     @NonNull
@@ -77,10 +79,6 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.userRoles = userRoles;
-//    public AppUser(@NonNull String email, @NonNull String password, @NonNull UserRoles userRoles) {
-//        this.email = email;
-//        this.password = password;
-//        this.userRoles = userRoles;
-//    }
     }
+
 }
