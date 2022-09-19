@@ -1,7 +1,6 @@
 package com.esmile.appEsmile.entity;
 
 import com.esmile.appEsmile.login.UserRoles;
-import io.jsonwebtoken.Jwt;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,10 +44,6 @@ public class AppUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRoles.name());
         return Collections.singleton(grantedAuthority);
-    }
-
-    public UserRoles getUserRoles() {
-        return userRoles;
     }
 
     @Override
