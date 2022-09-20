@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,13 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final AppUserService userService;
 
     private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfiguration(AppUserService userService, JwtRequestFilter jwtRequestFilter) {
-        this.userService = userService;
+    public SecurityConfiguration( JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
@@ -37,17 +36,16 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/paciente/**").hasRole("PATIENT")
-                .antMatchers("/dentista/**").hasRole("DENTIST")
-                .antMatchers("/**").hasRole("ADMIN")
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/paciente/**").hasAnyRole("PATIENT", "ADMIN")
+                .antMatchers("/dentista/**").hasAnyRole("DENTIST", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
