@@ -8,6 +8,8 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
+
 public interface IPatientRepository extends JpaRepository<Patient, Long> {
 
 
