@@ -12,5 +12,6 @@ import java.util.Optional;
 
 public interface IPatientRepository extends JpaRepository<Patient, Long> {
 
-
+    List<Patient> findByName();
+    Patient finByCpf();
 }
