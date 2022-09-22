@@ -76,4 +76,11 @@ public class PatientController {
         //        service.delete(dentist);
     }
 
+    @GetMapping("/name")
+
+    public List<Patient> get (@RequestParam("name") String name) throws ResourceNotFoundException {
+
+
+      return service.findByName(name);
+    }
 }
