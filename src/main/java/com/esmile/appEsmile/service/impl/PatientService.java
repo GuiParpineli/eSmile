@@ -64,4 +64,14 @@ public class PatientService implements IService<Patient> {
         patientRepository.deleteById(id);
 
     }
+
+    public List<Patient> findByName( String name){
+        return patientRepository.findByName(name);
+    }
+
+    public Patient finByCpf( String cpf){
+        return patientRepository.finByCpf(cpf);
+    }
+
+
 }
