@@ -1,7 +1,9 @@
 package com.esmile.appEsmile;
 
+import com.esmile.appEsmile.entity.Address;
 import com.esmile.appEsmile.entity.AppUser;
 import com.esmile.appEsmile.login.UserRoles;
+import com.esmile.appEsmile.repository.IAdressRepository;
 import com.esmile.appEsmile.repository.IAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -13,11 +15,13 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements ApplicationRunner {
 
     private final IAppUserRepository userRepository;
+    private final IAdressRepository adressRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public DataLoader(IAppUserRepository userRepository) {
+    public DataLoader(IAppUserRepository userRepository, IAdressRepository adressRepository ) {
         this.userRepository = userRepository;
+        this.adressRepository = adressRepository;
     }
 
     @Override
@@ -26,7 +30,6 @@ public class DataLoader implements ApplicationRunner {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         AppUser admin = AppUser.builder()
-                .name("admin")
                 .username("admin")
                 .email("admin@email.com")
                 .password(bCryptPasswordEncoder.encode("admin"))
@@ -34,7 +37,6 @@ public class DataLoader implements ApplicationRunner {
                 .build();
 
         AppUser dentist = AppUser.builder()
-                .name("dentist")
                 .username("dentist")
                 .email("dentist@email.com")
                 .password(bCryptPasswordEncoder.encode("dentist"))
@@ -42,16 +44,25 @@ public class DataLoader implements ApplicationRunner {
                 .build();
 
         AppUser patient = AppUser.builder()
-                .name("patient")
                 .username("patient")
                 .email("patient@email.com")
                 .password(bCryptPasswordEncoder.encode("patient"))
                 .userRoles(UserRoles.ROLE_PATIENT)
                 .build();
 
+        Address address = Address.builder()
+                .street("Dos bobos")
+                .number("0")
+                .neighborhood("Jardim Diamantes")
+                .zipcode("23939-000")
+                .city("Diamantina")
+                .state("Pedras")
+                .build();
+
         userRepository.save(admin);
         userRepository.save(dentist);
         userRepository.save(patient);
+        adressRepository.save(address);
 
     }
 }

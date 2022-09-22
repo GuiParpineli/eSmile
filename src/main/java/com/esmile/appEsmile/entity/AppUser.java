@@ -26,9 +26,6 @@ public class AppUser implements UserDetails {
 
     private String jwt;
 
-    @NonNull
-    private String name;
-
     @NotNull
     @Size(min = 4 , max = 8)
     private String username;
@@ -73,13 +70,11 @@ public class AppUser implements UserDetails {
         this.jwt = jwt;
     }
 
-    public AppUser(@NonNull String name, @NonNull String username, @NonNull String email, @NonNull String password,
-                   @NonNull UserRoles userRoles) {
-        this.name = name;
+    public AppUser(String jwt, String username, @NonNull String email, @NonNull String password, @NonNull UserRoles userRoles) {
+        this.jwt = jwt;
         this.username = username;
         this.email = email;
         this.password = password;
         this.userRoles = userRoles;
     }
-
 }

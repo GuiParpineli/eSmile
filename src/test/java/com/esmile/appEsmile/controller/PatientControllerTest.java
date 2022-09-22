@@ -24,8 +24,9 @@ class PatientControllerTest {
 
     @BeforeAll
     static void doBefore() {
-        patient = new Patient(null, "Chico", "Bento", "84376546548", new Address(null, "Rua dos bobos", "Bairro Diamantes",
-                "12512-000", "Potato City", "SC"));
+        patient = Patient.builder()
+                .name("")
+                .build();
     }
 
 

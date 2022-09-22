@@ -16,8 +16,10 @@ import java.util.*;
 @RequestMapping("/paciente")
 public class PatientController {
 
+    private final PatientService service;
+
     @Autowired
-    PatientService service;
+    public PatientController(PatientService service) {this.service = service;}
 
     @PostMapping
     public Patient savePatient(@RequestBody Patient patient) {
@@ -64,22 +66,11 @@ public class PatientController {
         service.update(patient);
     }
 
-//    @DeleteMapping
-//    public ResponseEntity<String> excluir(@RequestBody Patient patient) throws ResourceNotFoundException {
-//        try {
-//            service.delete(patient);
-//            return ResponseEntity.ok("Patient Deleted");
-//        } catch (Exception ex) {
-//
-//            throw new ResourceNotFoundException("Error to find Patient");
-//        }
-//    }
-
     @DeleteMapping
 //    public void delete(@RequestBody Dentist dentist) {
-    public void delete (@RequestParam("id") Long id) {
+    public void delete (@RequestParam("id") Long id) throws ResourceNotFoundException {
         if (service.get(id).isEmpty()) {
-            throw new RuntimeException();
+            throw new ResourceNotFoundException("id nao encontrado");
         }
         service.delete(id);
         //        service.delete(dentist);

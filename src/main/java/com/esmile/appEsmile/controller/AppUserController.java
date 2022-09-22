@@ -63,7 +63,7 @@ public class AppUserController {
         if (systemUserSave == null) {
             return new ResponseEntity("Usuario ja cadastrado", HttpStatus.BAD_REQUEST);
         }
-        log.info("Usuario" + appUser.getName() + " cadastrado com sucesso");
+        log.info("Usuario" + appUser.getUsername() + " cadastrado com sucesso");
         return new ResponseEntity(systemUserSave, HttpStatus.OK);
     }
 

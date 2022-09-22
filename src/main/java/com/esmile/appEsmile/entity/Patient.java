@@ -20,9 +20,18 @@ public class Patient {
     @NonNull
     private String lastname;
     @NonNull
+    private String password;
+    @NonNull
+    private String email;
+    @NonNull
     private String cpf;
 
     @ManyToOne
     @JoinColumn(name = "id_address")
     private Address address;
+
+  //  @OneToOne
+  //  @JoinColumn(name = "id_appuser")
+  //  private AppUser user;
+
 }
