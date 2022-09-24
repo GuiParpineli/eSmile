@@ -20,18 +20,20 @@ public class Patient {
     @NonNull
     private String lastname;
     @NonNull
-    private String password;
-    @NonNull
-    private String email;
-    @NonNull
     private String cpf;
-
     @ManyToOne
     @JoinColumn(name = "id_address")
     private Address address;
 
-  //  @OneToOne
-  //  @JoinColumn(name = "id_appuser")
-  //  private AppUser user;
+    @OneToOne
+    @JoinColumn(name = "id_appuser")
+    private AppUser user;
 
+    public Patient(@NonNull String name, @NonNull String lastname, @NonNull String cpf, Address address, AppUser user) {
+        this.name = name;
+        this.lastname = lastname;
+        this.cpf = cpf;
+        this.address = address;
+        this.user = user;
+    }
 }

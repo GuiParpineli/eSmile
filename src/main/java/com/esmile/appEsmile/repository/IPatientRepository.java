@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-
 public interface IPatientRepository extends JpaRepository<Patient, Long> {
-
     List<Patient> findByName(String name);
-    Patient finByCpf( String cpf);
+    Optional<Patient> findByCpf(String cpf);
 }

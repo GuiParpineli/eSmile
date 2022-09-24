@@ -32,9 +32,9 @@ class PatientControllerTest {
 
     @Test
     void savePatient() {
-        Patient patientSaved = controller.savePatient(patient);
+        ResponseEntity patientSaved = controller.savePatient(patient);
 
-        Assertions.assertNotNull(patientSaved.getId());
+        Assertions.assertNotNull(patientSaved.getBody());
 
     }
 

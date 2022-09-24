@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -22,9 +23,13 @@ public class PatientController {
     public PatientController(PatientService service) {this.service = service;}
 
     @PostMapping
-    public Patient savePatient(@RequestBody Patient patient) {
-//        patient.setAddress(address);
-        return service.save(patient);
+    public ResponseEntity savePatient(@RequestBody Patient patient) {
+        try {
+            service.save(patient);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("Paciente ja existente ou dado invalido");
+        }
+        return ResponseEntity.ok(String.format("Paciente %s salvo com sucesso", patient.getName()));
     }
 
     @GetMapping
@@ -68,7 +73,7 @@ public class PatientController {
 
     @DeleteMapping
 //    public void delete(@RequestBody Dentist dentist) {
-    public void delete (@RequestParam("id") Long id) throws ResourceNotFoundException {
+    public void delete(@RequestParam("id") Long id) throws ResourceNotFoundException {
         if (service.get(id).isEmpty()) {
             throw new ResourceNotFoundException("id nao encontrado");
         }
@@ -78,9 +83,9 @@ public class PatientController {
 
     @GetMapping("/name")
 
-    public List<Patient> get (@RequestParam("name") String name) throws ResourceNotFoundException {
+    public List<Patient> get(@RequestParam("name") String name) throws ResourceNotFoundException {
 
 
-      return service.findByName(name);
+        return service.findByName(name);
     }
 }

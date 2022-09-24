@@ -79,11 +79,14 @@ public class AppUserController {
     }
 
     @GetMapping("/busca")
-    public ResponseEntity obterUserPorId(@RequestParam Long id){
+    public ResponseEntity obterUserPorId(@RequestParam Long id) throws ResourceNotFoundException {
         Optional<AppUser> user = service.get(id);
-        if(user.isEmpty()){
-            return new ResponseEntity("Nenhum usuario com id informado", HttpStatus.NOT_FOUND);
+        try{
+            user.isEmpty();
+        }catch (Exception e){
+            throw  new ResourceNotFoundException("Usuario nao encontrado");
         }
+
         return ResponseEntity.ok(user);
     }
 
