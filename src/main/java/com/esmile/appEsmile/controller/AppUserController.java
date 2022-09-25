@@ -58,8 +58,13 @@ public class AppUserController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastrarUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<?> cadastrarUser(@RequestBody AppUser appUser) {
+        log.info(appUser);
+
         AppUser systemUserSave = service.save(appUser);
+
+        final String jwt = jwtUtil.generateToken(systemUserSave);
+
         if (systemUserSave == null) {
             return new ResponseEntity("Usuario ja cadastrado", HttpStatus.BAD_REQUEST);
         }
