@@ -1,14 +1,9 @@
 package com.esmile.appEsmile.service.impl;
 
-import com.esmile.appEsmile.entity.AppUser;
 import com.esmile.appEsmile.entity.Patient;
-import com.esmile.appEsmile.exception.ResourceNotFoundException;
-import com.esmile.appEsmile.login.UserRoles;
-import com.esmile.appEsmile.repository.IAppUserRepository;
 import com.esmile.appEsmile.repository.IPatientRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,12 +13,10 @@ import java.util.Optional;
 public class PatientService implements IService<Patient> {
 
     private final IPatientRepository patientRepository;
-    private final IAppUserRepository userRepository;
 
     @Autowired
-    public PatientService(IPatientRepository patientRepository, IAppUserRepository userRepository) {
+    public PatientService(IPatientRepository patientRepository ) {
         this.patientRepository = patientRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -38,16 +31,7 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public Patient save(Patient patient) {
-        Patient p = patientRepository.save(patient);
-        userRepository.save(
-                AppUser.builder()
-                        .username(patient.getName())
-                        .password(patient.getPassword())
-                        .email(patient.getEmail())
-                        .userRoles(UserRoles.ROLE_PATIENT)
-                        .build()
-        );
-        return p;
+       return patientRepository.save(patient);
     }
 
     @Override
@@ -69,8 +53,8 @@ public class PatientService implements IService<Patient> {
         return patientRepository.findByName(name);
     }
 
-    public Patient finByCpf( String cpf){
-        return patientRepository.finByCpf(cpf);
+    public Optional<Patient> finByCpf(String cpf){
+        return patientRepository.findByCpf(cpf);
     }
 
 
