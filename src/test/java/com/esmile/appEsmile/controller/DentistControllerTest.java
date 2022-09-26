@@ -1,5 +1,6 @@
 package com.esmile.appEsmile.controller;
 
+import com.esmile.appEsmile.entity.AppUser;
 import com.esmile.appEsmile.entity.Dentist;
 import com.esmile.appEsmile.service.impl.DentistService;
 
@@ -7,14 +8,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +31,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(DentistController.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 class DentistControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -36,9 +44,9 @@ class DentistControllerTest {
     @MockBean
     DentistService service;
 
-    Dentist RECORD_01 = new Dentist(1L, "Filipe", "Farias", "123456");
-    Dentist RECORD_02 = new Dentist(2L, "Guilherme", "Parpineli", "654321");
-    Dentist RECORD_03 = new Dentist(3L, "Lucas", "Rosa", "134625");
+    Dentist RECORD_01 = new Dentist(1L, "Filipe", "Farias", "123456",new AppUser());
+    Dentist RECORD_02 = new Dentist(2L, "Guilherme", "Parpineli", "654321", new AppUser());
+    Dentist RECORD_03 = new Dentist(3L, "Lucas", "Rosa", "134625", new AppUser());
 
     @Test
     @DisplayName("Deve Retornar OK - Salvar dentista")

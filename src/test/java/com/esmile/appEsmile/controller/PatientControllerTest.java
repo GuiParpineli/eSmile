@@ -2,6 +2,8 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.Address;
 import com.esmile.appEsmile.entity.Patient;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
+import com.esmile.appEsmile.exception.UserCadastradoExecption;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,7 +33,7 @@ class PatientControllerTest {
 
 
     @Test
-    void savePatient() {
+    void savePatient() throws UserCadastradoExecption {
         ResponseEntity patientSaved = controller.savePatient(patient);
 
         Assertions.assertNotNull(patientSaved.getBody());
@@ -39,7 +41,7 @@ class PatientControllerTest {
     }
 
     @Test
-    void get() {
+    void get() throws ResourceNotFoundException {
 
         ResponseEntity patientSaved = controller.get(1L);
 
@@ -47,7 +49,7 @@ class PatientControllerTest {
     }
 
     @Test
-    void getAll() {
+    void getAll() throws ResourceNotFoundException {
 
         List<ResponseEntity> patients = Arrays.asList(controller.getAll());
 
