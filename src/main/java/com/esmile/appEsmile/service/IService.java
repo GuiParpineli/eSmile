@@ -10,7 +10,7 @@ public interface IService<T> {
 
     public List<T> getAll() ;
 
-    public Optional<T> get(Long id) ;
+    public Optional<T> get(Long id) throws Exception;
 
     public T save(T t) ;
 

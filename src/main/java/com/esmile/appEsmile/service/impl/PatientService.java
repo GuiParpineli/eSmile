@@ -25,7 +25,9 @@ public class PatientService implements IService<Patient> {
     }
 
     @Override
-    public Optional<Patient> get(Long id) {
+    public Optional<Patient> get(Long id) throws Exception {
+        if (patientRepository.findById(id).isEmpty())
+            throw new Exception();
         return patientRepository.findById(id);
     }
 
@@ -41,7 +43,7 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public void delete(Long id) {
-            patientRepository.deleteById(id);
+        patientRepository.deleteById(id);
     }
 
     public List<Patient> findByName(String name) {
