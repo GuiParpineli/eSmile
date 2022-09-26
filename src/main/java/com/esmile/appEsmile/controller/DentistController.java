@@ -2,6 +2,8 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.dto.DentistDTO;
 import com.esmile.appEsmile.entity.Dentist;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
+import com.esmile.appEsmile.exception.UserCadastradoExecption;
 import com.esmile.appEsmile.repository.IDentistRepository;
 import com.esmile.appEsmile.service.impl.DentistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,10 +21,11 @@ import java.util.Optional;
 @RequestMapping("/dentista")
 public class DentistController {
 
-    @Autowired
     DentistService service;
 
-    public DentistController() {
+    @Autowired
+    public DentistController(DentistService service) {
+        this.service = service;
     }
 
     @PostMapping
@@ -41,7 +44,6 @@ public class DentistController {
 
         DentistDTO dentistDTO = mapper.convertValue(dentistOptional, DentistDTO.class);
 
-//        return new ResponseEntity(dentistDTO, HttpStatus.OK);
         return new ResponseEntity(dentistOptional, HttpStatus.OK);
     }
 
@@ -65,18 +67,21 @@ public class DentistController {
     }
 
     @PutMapping
-    public void update(@RequestBody Dentist dentist) {
-        service.update(dentist);
+    public void update(@RequestBody Dentist dentist) throws ResourceNotFoundException {
+        try {
+            service.update(dentist);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Usuario nao encontrado");
+        }
     }
 
     @DeleteMapping
-//    public void delete(@RequestBody Dentist dentist) {
-    public void delete (@RequestParam("id") Long id) {
-        if (service.get(id).isEmpty()) {
-            throw new RuntimeException();
+    public void delete(@RequestParam("id") Long id) throws UserCadastradoExecption {
+        try {
+            service.delete(id);
+        } catch (Exception e) {
+            throw new UserCadastradoExecption("Usuario nao encontrado");
         }
-        service.delete(id);
-        //        service.delete(dentist);
     }
 }
 

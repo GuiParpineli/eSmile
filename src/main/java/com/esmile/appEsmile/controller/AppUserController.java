@@ -2,6 +2,7 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.AppUser;
 import com.esmile.appEsmile.exception.ResourceNotFoundException;
+import com.esmile.appEsmile.exception.UserCadastradoExecption;
 import com.esmile.appEsmile.login.JwtUtil;
 import com.esmile.appEsmile.service.impl.AppUserService;
 import org.apache.log4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class AppUserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AppUser appUser) {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AppUser appUser) throws UserCadastradoExecption {
         log.info(appUser);
         try {
             log.info("Efetuando login para: " + appUser.getEmail());
@@ -46,9 +48,8 @@ public class AppUserController {
                     appUser.getEmail(),
                     appUser.getPassword()
             ));
-        } catch(Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new UserCadastradoExecption("Usuario ja cadastrado");
         }
 
         final UserDetails userDetails = service.loadUserByUsername(appUser.getEmail());
@@ -61,23 +62,23 @@ public class AppUserController {
     public ResponseEntity<?> cadastrarUser(@RequestBody AppUser appUser) {
         log.info(appUser);
 
-        AppUser systemUserSave = service.save(appUser);
+        AppUser systemUserSave = null;
 
-        final String jwt = jwtUtil.generateToken(systemUserSave);
-
-        if (systemUserSave == null) {
-            return new ResponseEntity("Usuario ja cadastrado", HttpStatus.BAD_REQUEST);
+        try {
+            service.save(appUser);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("Usuario ja cadastrado");
         }
         log.info("Usuario" + appUser.getUsername() + " cadastrado com sucesso");
         return new ResponseEntity(systemUserSave, HttpStatus.OK);
     }
 
     @GetMapping
-    public  ResponseEntity<?> obterTodos() throws ResourceNotFoundException {
+    public ResponseEntity<?> obterTodos() throws ResourceNotFoundException {
         List<AppUser> appUsers;
         try {
             appUsers = service.getAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ResourceNotFoundException("Nenhum usuario cadastrado");
         }
         return ResponseEntity.ok(appUsers);
@@ -86,21 +87,21 @@ public class AppUserController {
     @GetMapping("/busca")
     public ResponseEntity obterUserPorId(@RequestParam Long id) throws ResourceNotFoundException {
         Optional<AppUser> user = service.get(id);
-        try{
+        try {
             user.isEmpty();
-        }catch (Exception e){
-            throw  new ResourceNotFoundException("Usuario nao encontrado");
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Usuario nao encontrado");
         }
 
         return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/exclusao")
-    public ResponseEntity removeUser(@RequestParam("id") Long id) throws ResourceNotFoundException{
+    public ResponseEntity removeUser(@RequestParam("id") Long id) throws ResourceNotFoundException {
         try {
             service.delete(id);
             return ResponseEntity.ok("Usuario Deletado");
-        }catch(Exception e) {
+        } catch (Exception e) {
             throw new ResourceNotFoundException("Nenhum usuario com o id informado");
         }
     }
