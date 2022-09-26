@@ -2,6 +2,7 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.AppUser;
 import com.esmile.appEsmile.entity.Dentist;
+import com.esmile.appEsmile.login.UserRoles;
 import com.esmile.appEsmile.service.impl.DentistService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -44,9 +46,43 @@ class DentistControllerTest {
     @MockBean
     DentistService service;
 
-    Dentist RECORD_01 = new Dentist(1L, "Filipe", "Farias", "123456",new AppUser());
-    Dentist RECORD_02 = new Dentist(2L, "Guilherme", "Parpineli", "654321", new AppUser());
-    Dentist RECORD_03 = new Dentist(3L, "Lucas", "Rosa", "134625", new AppUser());
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    Dentist RECORD_01 = new Dentist(
+            1L, "Filipe",
+            "Farias",
+            "123456",
+            AppUser.builder()
+                .username("admin")
+                .email("admin@email.com")
+                .password(bCryptPasswordEncoder.encode("admin"))
+                .userRoles(UserRoles.ROLE_ADMIN)
+                .build()
+    );
+    Dentist RECORD_02 = new Dentist(
+            2L,
+            "Guilherme",
+            "Parpineli",
+            "654321",
+            AppUser.builder()
+                .username("admin")
+                .email("admin@email.com")
+                .password(bCryptPasswordEncoder.encode("admin"))
+                .userRoles(UserRoles.ROLE_ADMIN)
+                .build()
+    );
+    Dentist RECORD_03 = new Dentist(
+            3L,
+            "Lucas",
+            "Rosa",
+            "134625",
+            AppUser.builder()
+                .username("admin")
+                .email("admin@email.com")
+                .password(bCryptPasswordEncoder.encode("admin"))
+                .userRoles(UserRoles.ROLE_ADMIN)
+                .build()
+    );
 
     @Test
     @DisplayName("Deve Retornar OK - Salvar dentista")
@@ -69,8 +105,6 @@ class DentistControllerTest {
 
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk());
-//                    .andExpect(jsonPath("$", notNullValue()));
-//                    .andExpect(jsonPath("$.name", is("Maiara")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -79,16 +113,16 @@ class DentistControllerTest {
     @Test
     @DisplayName("Deve Retornar OK - Buscar dentista")
     void getDentist_success() {
-        when(service.get(RECORD_01.getId()))
-                .thenReturn(Optional.of(RECORD_01));
+        when(service.get(RECORD_03.getId()))
+                .thenReturn(Optional.of(RECORD_03));
 
         try {
             mockMvc.perform(MockMvcRequestBuilders
-                    .get("/dentista?id=1")
+                    .get("/dentista?id=3")
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", notNullValue()))
-                    .andExpect(jsonPath("$.name", is("Filipe")));
+                    .andExpect(jsonPath("$.name", is("Lucas")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -138,8 +172,6 @@ class DentistControllerTest {
 
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk());
-//                    .andExpect(jsonPath("$", notNullValue()))
-//                    .andExpect(jsonPath("$.name", is("Filipe")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
