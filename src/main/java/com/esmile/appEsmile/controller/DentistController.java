@@ -41,7 +41,7 @@ public class DentistController {
             return new ResponseEntity("Nenhum dentista encontrado", HttpStatus.NOT_FOUND);
         }
 
-        DentistDTO dentistDTO = mapper.convertValue(dentistOptional, DentistDTO.class);
+        DentistDTO dentistDTO = mapper.convertValue(dentistOptional.get(), DentistDTO.class);
 
         return new ResponseEntity(dentistOptional, HttpStatus.OK);
     }

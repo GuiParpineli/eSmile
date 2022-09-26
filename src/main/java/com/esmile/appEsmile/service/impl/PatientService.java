@@ -1,6 +1,7 @@
 package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.Patient;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.repository.IPatientRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class PatientService implements IService<Patient> {
     }
 
     @Override
-    public Optional<Patient> get(Long id) throws Exception {
+    public Optional<Patient> get(Long id) throws ResourceNotFoundException {
         if (patientRepository.findById(id).isEmpty())
-            throw new Exception();
+            throw new ResourceNotFoundException("Paciente nao cadastrado");
         return patientRepository.findById(id);
     }
 

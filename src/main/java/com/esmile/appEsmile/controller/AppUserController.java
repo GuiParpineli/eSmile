@@ -94,7 +94,7 @@ public class AppUserController {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Optional<AppUser> user = service.get(id);
-            return ResponseEntity.ok(mapper.convertValue(user, AppUserDTO.class));
+            return ResponseEntity.ok(mapper.convertValue(user.get(), AppUserDTO.class));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Usuario nao encontrado");
         }

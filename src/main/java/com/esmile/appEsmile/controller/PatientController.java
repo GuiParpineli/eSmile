@@ -35,10 +35,9 @@ public class PatientController {
     @GetMapping
     public ResponseEntity<?> get(@RequestParam("id") Long id) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
-        Optional<Patient> patientOptional;
         try {
-            patientOptional = service.get(id);
-            return ResponseEntity.ok(mapper.convertValue(patientOptional, PatientDTO.class));
+            Optional<Patient> patientOptional = service.get(id);
+            return ResponseEntity.ok(mapper.convertValue(patientOptional.get(), PatientDTO.class));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Paciente nao encontrado");
         }
@@ -48,8 +47,8 @@ public class PatientController {
     public ResponseEntity<?> getAll() throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         List<PatientDTO> patientDTOS = new ArrayList<>();
-        List<Patient> patients = service.getAll();
         try {
+            List<Patient> patients = service.getAll();
             for (Patient p : patients) {
                 patientDTOS.add(mapper.convertValue(p, PatientDTO.class));
             }

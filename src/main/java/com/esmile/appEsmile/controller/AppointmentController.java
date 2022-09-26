@@ -45,7 +45,7 @@ public class AppointmentController {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        AppointmentDTO appointmentDTO = mapper.convertValue(appointmentOptional, AppointmentDTO.class);
+        AppointmentDTO appointmentDTO = mapper.convertValue(appointmentOptional.get(), AppointmentDTO.class);
 
         return new ResponseEntity(appointmentDTO, HttpStatus.OK);
     }
