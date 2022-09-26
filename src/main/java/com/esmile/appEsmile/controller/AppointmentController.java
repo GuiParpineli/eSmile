@@ -26,28 +26,24 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity save(@RequestBody Appointment appointment) throws AppointmentErrorException {
-        Appointment appointmentSave = null;
         try {
-            service.save(appointment);
+            Appointment appointmentSave = service.save(appointment);
+            return new ResponseEntity(appointmentSave, HttpStatus.OK);
         } catch (Exception e) {
             throw new AppointmentErrorException("Erro ao agendar consulta");
         }
-        return new ResponseEntity(appointmentSave, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity get(@RequestParam("id") Long id) {
-
-        Optional<Appointment> appointmentOptional = service.get(id);
-        if (appointmentOptional.isEmpty()) {
-            return new ResponseEntity("Consulta não encontrada no sitema", HttpStatus.NOT_FOUND);
-        }
-
+    public ResponseEntity get(@RequestParam("id") Long id) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
-
-        AppointmentDTO appointmentDTO = mapper.convertValue(appointmentOptional.get(), AppointmentDTO.class);
-
-        return new ResponseEntity(appointmentDTO, HttpStatus.OK);
+        try {
+            Optional<Appointment> appointmentOptional = service.get(id);
+            AppointmentDTO appointmentDTO = mapper.convertValue(appointmentOptional.get(), AppointmentDTO.class);
+            return new ResponseEntity(appointmentDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Nenhuma consultada encontrada");
+        }
     }
 
     @GetMapping("/todos")

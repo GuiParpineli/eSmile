@@ -43,7 +43,9 @@ public class PatientService implements IService<Patient> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws ResourceNotFoundException {
+        if (patientRepository.findById(id).isEmpty())
+            throw new ResourceNotFoundException("");
         patientRepository.deleteById(id);
     }
 

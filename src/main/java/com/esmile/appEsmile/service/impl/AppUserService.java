@@ -1,6 +1,7 @@
 package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.AppUser;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.repository.IAppUserRepository;
 import com.esmile.appEsmile.service.IService;
 import org.apache.log4j.Logger;
@@ -34,11 +35,10 @@ public class AppUserService implements IService<AppUser>, UserDetailsService {
         return repository.save(appUser);
     }
 
-    public void delete(Long id) {
-        if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
-            log.info("Usuario deletado com sucesso");
-        }
+    public void delete(Long id) throws ResourceNotFoundException {
+        if (repository.findById(id).isEmpty())
+            throw new ResourceNotFoundException("");
+        log.info("Usuario deletado com sucesso");
     }
 
     public void update(AppUser appUser) {

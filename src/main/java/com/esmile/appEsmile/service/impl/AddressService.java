@@ -1,6 +1,7 @@
 package com.esmile.appEsmile.service.impl;
 
 import com.esmile.appEsmile.entity.Address;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.repository.IAdressRepository;
 import com.esmile.appEsmile.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,9 @@ public class AddressService implements IService<Address> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws ResourceNotFoundException {
+        if (repository.findById(id).isEmpty())
+            throw new ResourceNotFoundException("");
         repository.deleteById(id);
-        //return null;
     }
 }
