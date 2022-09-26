@@ -23,4 +23,8 @@ public class Dentist {
     @Column(nullable = false, length = 8)
     private String cro;
 
+    @OneToOne
+    @JoinColumn(name = "id_appuser")
+    private AppUser user;
+
 }

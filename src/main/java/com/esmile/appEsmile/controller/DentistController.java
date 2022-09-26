@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/dentista")
 public class DentistController {
 
-    DentistService service;
+    private final DentistService service;
 
     @Autowired
     public DentistController(DentistService service) {
@@ -34,9 +34,8 @@ public class DentistController {
     }
 
     @GetMapping
-    public ResponseEntity get(@RequestParam("id") Long id) {
+    public ResponseEntity<?> get(@RequestParam("id") Long id) {
         ObjectMapper mapper = new ObjectMapper();
-
         Optional<Dentist> dentistOptional = service.get(id);
         if (dentistOptional.isEmpty()) {
             return new ResponseEntity("Nenhum dentista encontrado", HttpStatus.NOT_FOUND);
@@ -48,37 +47,36 @@ public class DentistController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity getAll() {
+    public ResponseEntity<?> getAll() {
         ObjectMapper mapper = new ObjectMapper();
 
         List<DentistDTO> dentistDTOS = new ArrayList<>();
-
         List<Dentist> dentists = service.getAll();
 
         if (dentists.isEmpty()) {
             return new ResponseEntity("Nenhum dentista encontrado", HttpStatus.NOT_FOUND);
         }
-
         for (Dentist d : dentists) {
             dentistDTOS.add(mapper.convertValue(d, DentistDTO.class));
         }
-
         return new ResponseEntity(dentistDTOS, HttpStatus.OK);
     }
 
     @PutMapping
-    public void update(@RequestBody Dentist dentist) throws ResourceNotFoundException {
+    public ResponseEntity<?> update(@RequestBody Dentist dentist) throws ResourceNotFoundException {
         try {
             service.update(dentist);
+            return ResponseEntity.ok("Atualizado com sucesso");
         } catch (Exception e) {
             throw new ResourceNotFoundException("Usuario nao encontrado");
         }
     }
 
     @DeleteMapping
-    public void delete(@RequestParam("id") Long id) throws UserCadastradoExecption {
+    public ResponseEntity<?> delete(@RequestParam("id") Long id) throws UserCadastradoExecption {
         try {
             service.delete(id);
+            return ResponseEntity.ok("Dentista deletado com sucesso");
         } catch (Exception e) {
             throw new UserCadastradoExecption("Usuario nao encontrado");
         }
