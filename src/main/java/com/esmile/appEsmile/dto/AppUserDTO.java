@@ -6,16 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DentistDTO {
+public class AppUserDTO {
 
-    private String name;
-    private String lastname;
-    private String cro;
+    private String username;
+    private String email;
+    private String userRoles;
 
 }

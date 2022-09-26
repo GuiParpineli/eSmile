@@ -1,5 +1,6 @@
 package com.esmile.appEsmile.exception.handler;
 
+import com.esmile.appEsmile.exception.AppointmentErrorException;
 import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.exception.UserCadastradoExecption;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<String> processUserCadastradoExeption(UserCadastradoExecption exe) {
         return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(exe.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> processAppointmentError(AppointmentErrorException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
 }

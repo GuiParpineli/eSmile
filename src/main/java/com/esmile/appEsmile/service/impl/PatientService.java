@@ -15,7 +15,7 @@ public class PatientService implements IService<Patient> {
     private final IPatientRepository patientRepository;
 
     @Autowired
-    public PatientService(IPatientRepository patientRepository ) {
+    public PatientService(IPatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 
@@ -31,7 +31,7 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public Patient save(Patient patient) {
-       return patientRepository.save(patient);
+        return patientRepository.save(patient);
     }
 
     @Override
@@ -41,19 +41,14 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public void delete(Long id) {
-
-//        if (get(patient.getId()) != null ) {
-//            patientRepository.deleteById(patient.getId());
-//        }
         patientRepository.deleteById(id);
-
     }
 
-    public List<Patient> findByName( String name){
+    public List<Patient> findByName(String name) {
         return patientRepository.findByName(name);
     }
 
-    public Optional<Patient> finByCpf(String cpf){
+    public Optional<Patient> findByCpf(String cpf) {
         return patientRepository.findByCpf(cpf);
     }
 

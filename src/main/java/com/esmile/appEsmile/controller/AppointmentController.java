@@ -2,6 +2,9 @@ package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.dto.AppointmentDTO;
 import com.esmile.appEsmile.entity.Appointment;
+import com.esmile.appEsmile.exception.AppointmentErrorException;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
+import com.esmile.appEsmile.exception.UserCadastradoExecption;
 import com.esmile.appEsmile.service.impl.AppointmentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +19,19 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/agendamento")
 public class AppointmentController {
+    private final AppointmentService service;
+
     @Autowired
-    AppointmentService service;
+    public AppointmentController(AppointmentService service) {this.service = service;}
 
     @PostMapping
-    public ResponseEntity save(@RequestBody Appointment appointment) {
-        Appointment appointmentSave = service.save(appointment);
+    public ResponseEntity save(@RequestBody Appointment appointment) throws AppointmentErrorException {
+        Appointment appointmentSave = null;
+        try {
+            service.save(appointment);
+        } catch (Exception e) {
+            throw new AppointmentErrorException("Erro ao agendar consulta");
+        }
         return new ResponseEntity(appointmentSave, HttpStatus.OK);
     }
 
@@ -61,11 +71,15 @@ public class AppointmentController {
         if (service.get(appointment.getId()).isEmpty()) {
             new ResponseEntity("Nao existem consultas com o parametro informado, nada foi alterado", HttpStatus.NOT_FOUND);
         }
-
+        service.update(appointment);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam("id") Long id) {
-        service.delete(id);
+    public void delete(@RequestParam("id") Long id) throws ResourceNotFoundException {
+        try {
+            service.delete(id);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Usuario nao encontrado");
+        }
     }
 }
