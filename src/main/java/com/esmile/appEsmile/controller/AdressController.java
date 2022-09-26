@@ -1,6 +1,7 @@
 package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.Address;
+import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.service.impl.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class AdressController {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam("id") Long id) {
+    public void delete(@RequestParam("id") Long id) throws ResourceNotFoundException {
 //        if (address != null && addressService.get(address.getId()).isPresent()) {
 //            addressService.delete(address);
 //        }

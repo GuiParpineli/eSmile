@@ -63,7 +63,7 @@ public class AppointmentController {
     }
 
     @PutMapping
-    public void update(@RequestBody Appointment appointment) {
+    public void update(@RequestBody Appointment appointment) throws ResourceNotFoundException {
         if (service.get(appointment.getId()).isEmpty()) {
             new ResponseEntity("Nao existem consultas com o parametro informado, nada foi alterado", HttpStatus.NOT_FOUND);
         }
