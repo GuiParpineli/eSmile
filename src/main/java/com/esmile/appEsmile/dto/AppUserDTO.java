@@ -13,6 +13,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUserDTO {
 
+    private Long id;
     private String username;
     private String email;
     private String userRoles;

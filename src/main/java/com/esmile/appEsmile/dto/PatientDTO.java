@@ -16,6 +16,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PatientDTO implements Serializable {
 
+    private Long id;
     private String name;
     private String lastname;
 

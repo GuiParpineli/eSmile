@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfiguration( JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfiguration(JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
@@ -44,8 +44,14 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/login/**").permitAll()
-                .antMatchers("/paciente/**").hasAnyRole("PATIENT", "ADMIN")
-                .antMatchers("/dentista/**").hasAnyRole("DENTIST", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/paciente/**").hasAnyRole("PATIENT", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/paciente/**").hasAnyRole("PATIENT", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/paciente/**").hasAnyRole("PATIENT", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/paciente/**").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/dentista/**").hasAnyRole("DENTIST", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/dentista/**").hasAnyRole("DENTIST", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/dentista/**").hasAnyRole("DENTIST", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/dentista/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

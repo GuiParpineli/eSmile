@@ -72,14 +72,15 @@ public class PatientController {
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam("id") Long id) throws ResourceNotFoundException {
         try {
-            service.delete(id);
-            return new ResponseEntity(String.format("Usuario %s", service.get(id).get().getName()), HttpStatus.OK);
+            if (service.get(id).isPresent())
+                service.delete(id);
+            return new ResponseEntity("Usuario deltado", HttpStatus.OK);
         } catch (Exception e) {
             throw new ResourceNotFoundException("id nao encontrado");
         }
     }
 
-    @GetMapping("/name")
+    @GetMapping("/buscarPorNome")
     public ResponseEntity<?> get(@RequestParam("name") String name) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         List<PatientDTO> patientDTOS = new ArrayList<>();

@@ -41,7 +41,7 @@ public class PatientService implements IService<Patient> {
 
     @Override
     public void delete(Long id) {
-        patientRepository.deleteById(id);
+            patientRepository.deleteById(id);
     }
 
     public List<Patient> findByName(String name) {
