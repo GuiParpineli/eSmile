@@ -166,4 +166,33 @@ class PatientControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    @DisplayName("Deve retornar OK - Atualizar paciente")
+    void updatePatient_success() throws ResourceNotFoundException {
+        Patient updatePatient = Patient.builder()
+                .id(1L)
+                .name("Gustavo")
+                .lastname("Brock")
+                .cpf("123456")
+                .build();
+
+        when(service.get(RECORD_01.getId()))
+                .thenReturn(Optional.of(RECORD_01));
+        when(service.save(updatePatient))
+                .thenReturn(updatePatient);
+
+        try{
+            MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                    .post("/paciente")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(this.mapper.writeValueAsString(updatePatient));
+
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
