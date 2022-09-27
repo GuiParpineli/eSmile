@@ -49,7 +49,8 @@ class DentistControllerTest {
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     Dentist RECORD_01 = new Dentist(
-            1L, "Filipe",
+            1L,
+            "Filipe",
             "Farias",
             "123456",
             AppUser.builder()

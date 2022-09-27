@@ -1,68 +1,126 @@
 package com.esmile.appEsmile.controller;
 
 import com.esmile.appEsmile.entity.Address;
+import com.esmile.appEsmile.entity.AppUser;
+import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.exception.UserCadastradoExecption;
+import com.esmile.appEsmile.login.UserRoles;
+import com.esmile.appEsmile.service.impl.PatientService;
+import com.esmile.appEsmile.service.impl.PatientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+@AutoConfigureMockMvc(addFilters = false)
 class PatientControllerTest {
 
     @Autowired
-    PatientController controller;
+    MockMvc mockMvc;
 
-    static Patient patient;
+    @Autowired
+    ObjectMapper mapper;
 
-    @BeforeAll
-    static void doBefore() {
-        patient = Patient.builder()
-                .name("")
+    @MockBean
+    PatientService service;
+
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    Address address = Address.builder()
+            .city("BH")
+            .neighborhood("Centro")
+            .number("1234")
+            .street("Rua a")
+            .zipcode("123456.000")
+            .state("MG")
+            .build();
+
+    Patient RECORD_01 = new Patient(
+            "Filipe",
+            "Farias",
+            "123.456.789.00",
+            address,
+            AppUser.builder()
+                    .username("admin")
+                    .email("admin@email.com")
+                    .password(bCryptPasswordEncoder.encode("admin"))
+                    .userRoles(UserRoles.ROLE_ADMIN)
+                    .build()
+    );
+    Patient RECORD_02 = new Patient(
+            "Guilherme",
+            "Parpineli",
+            "223.456.789.00",
+            address,
+            AppUser.builder()
+                    .username("admin")
+                    .email("admin@email.com")
+                    .password(bCryptPasswordEncoder.encode("admin"))
+                    .userRoles(UserRoles.ROLE_ADMIN)
+                    .build()
+    );
+    Patient RECORD_03 = new Patient(
+            "Lucas",
+            "Rosa",
+            "323.456.789.00",
+            address,
+            AppUser.builder()
+                    .username("admin")
+                    .email("admin@email.com")
+                    .password(bCryptPasswordEncoder.encode("admin"))
+                    .userRoles(UserRoles.ROLE_ADMIN)
+                    .build()
+    );
+
+    @Test
+    @DisplayName("Salvar Paciente - Deve retornar OK")
+    void savePatiente_success() {
+        Patient patient = Patient.builder()
+                .name("Gustavo")
+                .lastname("Brock")
+                .cpf("111.222.333.444-55")
                 .build();
+
+        when(service.save(patient))
+                .thenReturn(patient);
+
+        try{
+            MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                    .post("/paciente")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(this.mapper.writeValueAsString(patient));
+
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
-    @Test
-    void savePatient() throws UserCadastradoExecption {
-        ResponseEntity patientSaved = controller.savePatient(patient);
-
-        Assertions.assertNotNull(patientSaved.getBody());
-
-    }
-
-    @Test
-    void get() throws ResourceNotFoundException {
-
-        ResponseEntity patientSaved = controller.get(1L);
-
-        Assertions.assertNotNull(patientSaved);
-    }
-
-    @Test
-    void getAll() throws ResourceNotFoundException {
-
-        List<ResponseEntity> patients = Arrays.asList(controller.getAll());
-
-        Assertions.assertNotNull(patients);
-    }
-
-    @Test
-    void update() {
-
-
-    }
-
-    @Test
-    void excluir() {
-    }
+    
+    
 }
