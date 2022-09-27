@@ -30,8 +30,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -60,6 +65,7 @@ class PatientControllerTest {
             .build();
 
     Patient RECORD_01 = new Patient(
+            1L,
             "Filipe",
             "Farias",
             "123.456.789.00",
@@ -72,6 +78,7 @@ class PatientControllerTest {
                     .build()
     );
     Patient RECORD_02 = new Patient(
+            2L,
             "Guilherme",
             "Parpineli",
             "223.456.789.00",
@@ -84,6 +91,7 @@ class PatientControllerTest {
                     .build()
     );
     Patient RECORD_03 = new Patient(
+            3L,
             "Lucas",
             "Rosa",
             "323.456.789.00",
@@ -121,6 +129,24 @@ class PatientControllerTest {
             throw new RuntimeException(e);
         }
     }
-    
+
+    @Test
+    @DisplayName("Deve Retornar OK - Quando buscar paciente ")
+    void getPacient_success() throws ResourceNotFoundException {
+        when(service.get(RECORD_01.getId()))
+                .thenReturn(Optional.ofNullable(RECORD_01));
+
+                try{
+                    mockMvc.perform(MockMvcRequestBuilders
+                            .get("/paciente?id=1")
+                            .contentType(MediaType.APPLICATION_JSON))
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$", notNullValue()))
+                            .andExpect(jsonPath("$.lastname", is("Farias")));
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+    }
     
 }
