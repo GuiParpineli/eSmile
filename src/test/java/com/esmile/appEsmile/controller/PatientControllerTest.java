@@ -1,8 +1,6 @@
 package com.esmile.appEsmile.controller;
 
-import com.esmile.appEsmile.entity.Address;
-import com.esmile.appEsmile.entity.AppUser;
-import com.esmile.appEsmile.entity.Patient;
+import com.esmile.appEsmile.entity.*;
 import com.esmile.appEsmile.entity.Patient;
 import com.esmile.appEsmile.exception.ResourceNotFoundException;
 import com.esmile.appEsmile.exception.UserCadastradoExecption;
@@ -28,12 +26,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -132,7 +130,7 @@ class PatientControllerTest {
 
     @Test
     @DisplayName("Deve Retornar OK - Quando buscar paciente ")
-    void getPacient_success() throws ResourceNotFoundException {
+    void getPatient_success() throws ResourceNotFoundException {
         when(service.get(RECORD_01.getId()))
                 .thenReturn(Optional.ofNullable(RECORD_01));
 
@@ -148,5 +146,24 @@ class PatientControllerTest {
                     throw new RuntimeException(e);
                 }
     }
-    
+
+    @Test
+    @DisplayName("Deve Retornar OK - Quando buscar todos os pacientes")
+    void getAllPatient_success() throws ResourceNotFoundException {
+        List<Patient> patients = new ArrayList<>(Arrays.asList(RECORD_01, RECORD_02, RECORD_03));
+
+        when(service.getAll())
+                .thenReturn(patients);
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                            .get("/paciente/todos")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(3)))
+                    .andExpect(jsonPath("$[1].name", is("Guilherme")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
