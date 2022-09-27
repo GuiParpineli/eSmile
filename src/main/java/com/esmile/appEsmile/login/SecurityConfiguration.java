@@ -43,6 +43,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll().and()
+                .authorizeHttpRequests()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/paciente/**").hasAnyRole("PATIENT", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/paciente/**").hasAnyRole("PATIENT", "ADMIN")
