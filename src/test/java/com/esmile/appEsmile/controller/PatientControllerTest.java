@@ -195,4 +195,20 @@ class PatientControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    @DisplayName("Deve Retornar OK - Deletar paciente")
+    void deletePatient_success() throws ResourceNotFoundException {
+        when(service.get(RECORD_03.getId()))
+                .thenReturn(Optional.of(RECORD_03));
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                            .delete("/paciente?id=3")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
